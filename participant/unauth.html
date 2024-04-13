@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="./assets/cdn/bootstrap/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="./assets/cdn/bootstrap/js/bootstrap.min.js" />
+    <link rel="stylesheet" href="./assets/cdn/font/josefin.css" />
+
+    <title>Invalid Participant</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        overflow: hidden;
+        font-family: "Josefin Sans";
+      }
+
+      .bg-body {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 1;
+      }
+
+      .overlay {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transform: scale(1.2);
+        backdrop-filter: blur(2px);
+        background-color: rgba(0, 0, 0, 0.6);
+      }
+
+      .banner {
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        height: max-content;
+        width: 100%;
+        text-align: center;
+
+        transform: rotateZ(-3deg);
+      }
+
+      .gradient {
+        background: linear-gradient(150deg, #2b234e4d, #5e0b4654);
+        height: 100%;
+        padding: 20px 50px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <img class="bg-body" src="./assets/images/unauth.jpg" alt="" />
+
+    <div class="overlay">
+      <div class="banner">
+        <div class="gradient">
+          <h1 id="message">You Are Not Allowed</h1>
+          <a href="./index.html">
+            <button class="btn btn-secondary" style="opacity: 0.5">
+              Login
+            </button>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <script src="./assets/js/common/index.js"></script>
+    <script src="./assets/js/common/auth.js"></script>
+    <script>
+      const urlParams = new URLSearchParams(window.location.search);
+      const message = urlParams.get("message");
+      document.getElementById("message").innerHTML = message
+        ? message
+        : "You Are Not Allowed";
+      logout(5000);
+    </script>
+  </body>
+</html>

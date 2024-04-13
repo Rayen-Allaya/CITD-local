@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <meta name="csrf-token" content="{{ csrf_token() }}" /> -->
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <script src="assets/cdn/jQuery/jquery.min.js"></script>
+  </head>
+
+  <body>
+    <div id="content">
+      <div id="error"></div>
+      <input type="password" id="front_password" />
+      <button id="click">rec</button>
+    </div>
+
+    <textarea style="width: 80%; height: 50vh" id="code" readonly></textarea>
+
+    <input type="password" id="back_password" />
+    <button id="submit">submit</button>
+
+    <script src="./assets/js/common/index.js"></script>
+    <script src="./assets/js/common/auth.js"></script>
+    <script>
+      authCheck();
+    </script>
+    <script>
+      document.addEventListener("contextmenu", function (e) {
+        e.preventDefault();
+      });
+      var front_end_password = "password";
+    </script>
+    <script>
+      var participant = localStorage.getItem("participant");
+      var round = localStorage.getItem("round");
+      var code = localStorage.getItem("content");
+      $("#click").on("click", function () {
+        if ($("#front_password").val() == front_end_password) {
+          $("#front_password").val("");
+          participantObject = JSON.parse(participant);
+          roundObject = JSON.parse(round);
+          const banned_keys = [
+            "image",
+            "created_at",
+            "updated_at",
+            "email_verified_at",
+            "role",
+            "isPresent",
+          ];
+          $("#content").append("<h1>Round</h1>");
+          Object.keys(roundObject).map((key) => {
+            if (!banned_keys.includes(key)) {
+              $("#content").append(
+                '<span style="font-weight:900;font-size:1.3rem;">' +
+                  key +
+                  " : </span><span>" +
+                  roundObject[key] +
+                  "</span> - - - - - - "
+              );
+            }
+          });
+          $("#content").append("<h1>Participant</h1>");
+          Object.keys(participantObject).map((key) => {
+            if (!banned_keys.includes(key)) {
+              $("#content").append(
+                '<span style="font-weight:900;font-size:1.3rem;">' +
+                  key +
+                  " : </span><span>" +
+                  participantObject[key] +
+                  "</span> - - - - - - "
+              );
+            }
+          });
+          $("#content").append("Participant");
+          $("#code").val(code);
+        }
+      });
+
+      function sendRequest() {
+        var round = localStorage.getItem("round");
+        var savedParticipant = localStorage.getItem("participant");
+        var code = localStorage.getItem("content");
+        var base_url = window.location.origin;
+        const file = new File([code], "file.html", {
+          type: "text/plain",
+        });
+        const { participant, token } = getParticipantData();
+        formData = new FormData();
+        formData.append("file", file);
+        back_password = $("#back_password").val();
+        formData.append("password", back_password);
+        formData.append("participant", savedParticipant);
+        formData.append("round", round);
+        formData.append("identifier", participant.email);
+        formData.append("api_token", token);
+        // $.ajaxSetup({});
+        $.ajax({
+          url: baseUrl() + "/api/participant/recover",
+          data: formData,
+          processData: false,
+          contentType: false,
+          type: "POST",
+          success: function (data) {
+            // window.location.href = "/auth/logout";
+            $("#error").text("Recovered");
+            setTimeout(() => {
+              logout();
+            }, 3000);
+          },
+          error: function (e) {
+            console.log(e.responseText);
+            $("#error").text("STH WENT WRONG");
+          },
+        });
+      }
+
+      $("#submit").on("click", function () {
+        sendRequest();
+      });
+    </script>
+
+    <script></script>
+  </body>
+</html>

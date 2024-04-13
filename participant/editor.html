@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <style>
+    .block-participant-view {
+      z-index: 5000;
+      background-color: black;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5rem;
+    }
+
+    body .alert > .start-icon {
+      margin-right: 0;
+      min-width: 20px;
+      text-align: center;
+    }
+
+    .alert > .start-icon {
+      margin-right: 5px;
+    }
+
+    .alert-info:hover {
+      background-color: rgba(7, 73, 149, 0.35);
+      transition: 0.5s;
+    }
+
+    .alert-simple.alert-warning {
+      border: 1px solid rgba(241, 142, 6, 0.81);
+      background-color: rgba(220, 128, 1, 0.16);
+      box-shadow: 0px 0px 2px #ffb103;
+      color: #ffb103;
+      text-shadow: 2px 1px #00040a;
+      transition: 0.5s;
+      cursor: pointer;
+    }
+
+    .alert-warning:hover {
+      background-color: rgba(220, 128, 1, 0.33);
+      transition: 0.5s;
+    }
+
+    .warning {
+      font-size: 18px;
+      color: #ffb40b;
+      text-shadow: none;
+    }
+
+    .alert:before {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: calc(100% - 44px);
+      border-left: 1px solid;
+      border-right: 2px solid;
+      border-bottom-right-radius: 3px;
+      border-top-right-radius: 3px;
+      left: 0;
+      top: 50%;
+      transform: translate(0, -50%);
+      height: 20px;
+    }
+  </style>
+
+  <head>
+    <meta charset="UTF-8" />
+    <title>Player - Editor</title>
+    <script src="./assets/js/common/index.js"></script>
+    <script src="./assets/js/common/auth.js"></script>
+    <script>
+      authCheck();
+    </script>
+    <link rel="stylesheet" href="./assets/css/editor/override.css" />
+    <script src="./assets/cdn/jQuery/jquery.min.js"></script>
+    <script src="./assets/cdn/editor/fileSaver.js"></script>
+    <script src="./assets/cdn/editor/html2canvas.js"></script>
+    <script src="./assets/js/participant/editor/index.js"></script>
+    <script type="text/javascript">
+      window.addEventListener("beforeunload", function (event) {
+        event.stopImmediatePropagation();
+      });
+    </script>
+
+    <script></script>
+    <script src="./assets/js/participant/editor/cdn.js"></script>
+  </head>
+
+  <body style="display: flex; justify-content: center">
+    <div
+      style="
+        background: url('./assets/images/citd.png');
+        background-size: 300px;
+        background-repeat: no-repeat;
+        background-position: center center;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        opacity: 0.1;
+      "
+    ></div>
+    <section id="overlay-hide" class="block-participant-view">
+      <h1 id="title" style="font-size: 2.5rem">Get Ready</h1>
+      <h4><span id="remainingTime">Loading...</span></h4>
+    </section>
+    <div
+      class="alert fade alert-simple alert-warning alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show"
+      style="position: absolute; color: white; display: none"
+    >
+      <strong class="font__weight-semibold">Your 10 minutes started !</strong>
+    </div>
+    <div class="background"></div>
+    <canvas class="canvas-overlay"></canvas>
+    <pre id="editor" style="position: absolute"></pre>
+    <div class="streak-container">
+      <div class="current">Combo</div>
+      <div class="counter">0</div>
+      <div class="bar"></div>
+      <div class="exclamations"></div>
+    </div>
+    <div class="reference-screenshot-container">
+      <span>Reference</span>
+      <div id="exemple" class="reference-screenshot">
+        <img
+          id="reference-img"
+          src=""
+          alt=""
+          style="object-fit: contain"
+          width="100%"
+        />
+      </div>
+    </div>
+    <div class="name-tag">Participant</div>
+    <script>
+      const participant = getParticipantData().participant;
+      $(".name-tag").text(participant.name);
+      const rounda = getRoundLocalhost();
+      if (rounda) {
+        $("#reference-img").attr("src", rounda.image);
+      }
+    </script>
+    <div class="power-mode-indicator">
+      <h1>POWER MODE!</h1>
+    </div>
+
+    <div class="button-bar">
+      <button class="instructions-button">Instructions</button>
+    </div>
+    <script>
+      $(".name-tag").on("click", function () {
+        $(".name-tag").hide();
+      });
+    </script>
+  </body>
+</html>

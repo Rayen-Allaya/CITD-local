@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Loading</title>
+    <style>
+      body {
+        font-family: "Courier New", Courier, monospace;
+        background-color: black;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.5rem;
+        height: 100vh;
+        overflow: hidden;
+      }
+    </style>
+    <script src="./assets/js/common/index.js"></script>
+    <script src="./assets/js/common/auth.js"></script>
+    <script>
+      authCheck();
+    </script>
+  </head>
+
+  <body>
+    <h1 id="title" style="font-size: 2.5rem">Loading...</h1>
+
+    <script>
+      var boilerplate = `<!DOCTYPE html>
+      <html lang="en">
+          <head>
+              <meta charset="UTF-8" />
+              <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+              <title>Code In The Dark 3.0</title>
+              <style>
+                  body{
+
+                  }
+              </style>
+          </head>
+          <body>
+
+          </body>
+      </html>`;
+      localStorage.setItem("initContent", boilerplate);
+    </script>
+
+    <script>
+      async function init() {
+        let saved_round_localStorage = getRoundLocalhost();
+        const activeOrPendingRound = await fetchCurrentRound();
+        if (
+          activeOrPendingRound &&
+          activeOrPendingRound.status == "active" &&
+          saved_round_localStorage &&
+          activeOrPendingRound.id == saved_round_localStorage.id
+        ) {
+          // trying to recover code
+          window.location.href = "./recovery.html";
+          console.log("hey");
+        } else {
+          localStorage.setItem("content", boilerplate);
+          setRoundLocalhost(activeOrPendingRound);
+          window.location.href = "./editor.html";
+        }
+        // window.location.href = "/participant/editor";
+      }
+      init();
+    </script>
+  </body>
+</html>

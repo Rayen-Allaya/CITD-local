@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
+    <title>Projection - Posts</title>
+    <link
+      href="./assets/css/projection/posts_organisation.css"
+      rel="stylesheet"
+    />
+    <!-- <link rel="icon" href="./assets/images/brand/icon.png" /> -->
+    <link rel="stylesheet" href="./assets/cdn/font/josefin.css" />
+    <link
+      rel="stylesheet"
+      href="./assets/cdn/bootstrap/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="./assets/cdn/bootstrap/js/bootstrap.min.js" />
+    <script src="./assets/cdn/jQuery/jquery.min.js"></script>
+  </head>
+
+  <body>
+    <div id="mainCoantiner">
+      <div id="round-number"></div>
+      <div class="margin-body">
+        <div>
+          <div class="starsec"></div>
+          <div class="starthird"></div>
+          <div class="starfourth"></div>
+          <div class="starfifth"></div>
+        </div>
+
+        <div
+          id="participants-container"
+          style="height: 100%"
+          class="row justify-content-between align-items-center"
+        ></div>
+      </div>
+    </div>
+
+    <script src="./assets/js/common/index.js"></script>
+    <script>
+      $participantsContainer = $("#participants-container");
+      async function fetchParticipants(current_round_id) {
+        var res = await fetch(
+          baseUrl() + `/api/rounds/${current_round_id}/participants`
+        );
+        var participants = await res.json();
+        return participants;
+      }
+
+      function renderParticipants(participants) {
+        var resultHTML = "";
+        for (i = 0; i < participants.length; i++) {
+          resultHTML += participantHtml(i, participants[i]);
+        }
+        $participantsContainer.html(resultHTML);
+      }
+
+      function participantHtml(index, participant) {
+        return `<div class="col-xs-15 pricing-column-wrapper">
+                        <div class="pricing-column">
+                            <div class="pricing-price-row">
+                                <div class="pricing-price-wrapper d-flex align-items-center justify-content-center"
+                                    style="
+                                width: 100%;
+                            ">
+                                    <div class="pricing-price d-flex align-items-center justify-content-center py-0">
+                                        <div class="pricing-cost">${
+                                          index + 1
+                                        }</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pricing-row-title">
+                                <div class="pricing_row_title">${
+                                  participant.name
+                                }</div>
+                            </div>
+                        </div>
+                    </div>`;
+      }
+    </script>
+    <script>
+      async function getRound() {
+        let round = await fetchCurrentRound();
+        await setRoundLocalhost(round);
+        if (round) {
+          $("#round-number").text("Round " + round.id);
+          if (!round.status) {
+            window.location.href = "./animation.html";
+          } else if (round.status == "active") {
+            window.location.href = "./countdown.html";
+          } else {
+            participants = await fetchParticipants(round.id);
+            renderParticipants(participants);
+          }
+        }
+      }
+      getRound();
+      setInterval(() => {
+        getRound();
+      }, 10 * 1000);
+    </script>
+  </body>
+</html>

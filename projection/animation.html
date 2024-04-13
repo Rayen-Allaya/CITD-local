@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Animation</title>
+    <link rel="stylesheet" href=".//assets/css/projection/animation.css" />
+  </head>
+
+  <body>
+    <!-- Please typing your favorite word!-->
+    <div id="ui">
+      <div class="text">CODE IN THE DARK 3.0</div>
+      <div class="text">CODE IN THE DARK 3.0</div>
+      <div class="text">CODE IN THE DARK 3.0</div>
+      <div class="text">CODE IN THE DARK 3.0</div>
+      <div class="text">CODE IN THE DARK 3.0</div>
+      <div class="text">CODE IN THE DARK 3.0</div>
+      <div class="text">CODE IN THE DARK 3.0</div>
+      <div class="text">CODE IN THE DARK 3.0</div>
+      <div class="text">CODE IN THE DARK 3.0</div>
+      <div class="text">CODE IN THE DARK 3.0</div>
+      <div class="text">CODE IN THE DARK 3.0</div>
+      <div class="text">CODE IN THE DARK 3.0</div>
+      <div class="text">CODE IN THE DARK 3.0</div>
+      <div class="text">CODE IN THE DARK 3.0</div>
+      <div class="text">CODE IN THE DARK 3.0</div>
+      <div class="text">CODE IN THE DARK 3.0</div>
+      <div class="text">CODE IN THE DARK 3.0</div>
+      <div class="text">CODE IN THE DARK 3.0</div>
+      <div class="text">CODE IN THE DARK 3.0</div>
+      <div class="text">CODE IN THE DARK 3.0</div>
+      <div class="text">CODE IN THE DARK 3.0</div>
+      <div class="text">CODE IN THE DARK 3.0</div>
+      <div class="text">CODE IN THE DARK 3.0</div>
+      <div class="text">CODE IN THE DARK 3.0</div>
+      <div class="text">CODE IN THE DARK 3.0</div>
+      <div class="text">CODE IN THE DARK 3.0</div>
+      <div class="text">CODE IN THE DARK 3.0</div>
+      <div class="text">CODE IN THE DARK 3.0</div>
+      <div class="text">CODE IN THE DARK 3.0</div>
+      <div class="text">CODE IN THE DARK 3.0</div>
+      <div class="text">CODE IN THE DARK 3.0</div>
+      <div class="text">CODE IN THE DARK 3.0</div>
+      <div class="text">CODE IN THE DARK 3.0</div>
+      <div class="text">CODE IN THE DARK 3.0</div>
+      <div class="text">CODE IN THE DARK 3.0</div>
+      <div class="text">CODE IN THE DARK 3.0</div>
+      <div class="text">CODE IN THE DARK 3.0</div>
+      <div class="text">CODE IN THE DARK 3.0</div>
+      <div class="text">CODE IN THE DARK 3.0</div>
+      <div class="text">CODE IN THE DARK 3.0</div>
+      <div class="text">CODE IN THE DARK 3.0</div>
+      <div class="text">CODE IN THE DARK 3.0</div>
+      <div class="text">CODE IN THE DARK 3.0</div>
+      <div class="text">CODE IN THE DARK 3.0</div>
+      <div class="text">CODE IN THE DARK 3.0</div>
+      <div class="text">CODE IN THE DARK 3.0</div>
+      <div class="text">CODE IN THE DARK 3.0</div>
+      <div class="text">CODE IN THE DARK 3.0</div>
+      <div class="text">CODE IN THE DARK 3.0</div>
+      <div class="text">CODE IN THE DARK 3.0</div>
+    </div>
+    <script src="./assets/js/common/index.js"></script>
+    <script>
+      async function getRound() {
+        let round = await fetchCurrentRound();
+        await setRoundLocalhost(round);
+        if (round) {
+          if (round.status == "pending") {
+            window.location.href = "./posts_organisation.html";
+          }
+
+          now = new Date();
+          end_time = new Date(round.end_time);
+          if (round.status == "active" && now < end_time) {
+            window.location.href = "./countdown.html";
+          }
+        }
+      }
+      getRound();
+      setInterval(() => {
+        getRound();
+      }, 10 * 1000);
+    </script>
+  </body>
+</html>

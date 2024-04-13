@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
+    <title>Projection - Countdown</title>
+    <link href="./assets/css/projection/countdown.css" rel="stylesheet" />
+    <!-- <link rel="icon" href="./assets/images/brand/icon.png" /> -->
+    <link rel="stylesheet" href="./assets/cdn/font/josefin.css" />
+    <link
+      rel="stylesheet"
+      href="./assets/cdn/bootstrap/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="./assets/cdn/bootstrap/js/bootstrap.min.js" />
+    <script src="./assets/cdn/jQuery/jquery.min.js"></script>
+  </head>
+
+  <body>
+    <section
+      id="countdown-section"
+      class="d-flex flex-column justify-content-center align-items-center"
+    >
+      <div id="overlay" class="hide"></div>
+      <div id="countdown-container">
+        <span id="time"></span>
+        <span id="state" style="font-size: 0.8rem"></span>
+      </div>
+    </section>
+    <script src="./assets/js/projection/countdown/index.js"></script>
+    <script src="./assets/js/common/index.js"></script>
+    <script>
+      now = new Date();
+      let roundWithDetails = getRoundLocalhost();
+      if (
+        !roundWithDetails ||
+        !roundWithDetails.start_time ||
+        !roundWithDetails.end_time
+      ) {
+        window.location.href = "./animation.html";
+      }
+    </script>
+
+    <script>
+      let round = {
+        start_time: new Date(roundWithDetails.start_time),
+        end_time: new Date(roundWithDetails.end_time),
+      };
+
+      renderTime(now, round.start_time, round.end_time, roundWithDetails.id);
+      setInterval(() => {
+        now = new Date();
+        if (timeEqual(now, round.end_time) || round.end_time <= now) {
+          // display stop
+          timeEqualHandler("STOP !");
+          setTimeout(() => {
+            window.location.href = "./animation.html";
+          }, 3000);
+        } else if (timeEqual(now, round.start_time)) {
+          // display start
+          timeEqualHandler("START !");
+        } else if (secondsRemaining(now, round, 3)) {
+          // before 3 seconds
+          threeSecondsRemainingHandler();
+          renderTime(
+            now,
+            round.start_time,
+            round.end_time,
+            roundWithDetails.id
+          );
+        } else if (secondsRemaining(now, round, 10)) {
+          // before 10 seconds
+          tenSecondsRemainingHandler();
+          renderTime(
+            now,
+            round.start_time,
+            round.end_time,
+            roundWithDetails.id
+          );
+        } else {
+          // default case
+          renderTime(
+            now,
+            round.start_time,
+            round.end_time,
+            roundWithDetails.id
+          );
+        }
+      }, 1000);
+    </script>
+  </body>
+</html>

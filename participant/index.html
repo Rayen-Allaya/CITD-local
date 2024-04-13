@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Code In The Dark</title>
+
+    <!-- Fonts -->
+    <!-- <link rel="preconnect" href="https://fonts.bunny.net" />
+    <link
+      href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap"
+      rel="stylesheet"
+    /> -->
+    <script src="./assets/cdn/tailwind/tailwind.js"></script>
+  </head>
+
+  <body
+    class="font-sans text-gray-900 antialiased"
+    style="
+      background-image: url('assets/images/post_setup.webp');
+      background-size: cover;
+      background-position: center;
+    "
+  >
+    <div
+      class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0"
+    >
+      <div>
+        <img src="assets/images/citd.png" style="width: 120px" />
+      </div>
+
+      <div
+        style="background-color: #2a234e71; color: white"
+        class="w-full sm:max-w-md mt-6 px-6 py-4 shadow-md overflow-hidden sm:rounded-lg"
+      >
+        <form id="login-form">
+          <div>
+            <label class="block font-medium text-sm"> Phone or Email </label>
+
+            <input
+              style="color: black; font-size: 30px; margin-block: 10px"
+              class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block mt-1 w-full"
+              id="identifier"
+              type="text"
+              name="identifier"
+              required
+              autofocus
+              autocomplete="username"
+            />
+          </div>
+
+          <div class="flex items-center justify-end mt-4">
+            <button
+              class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
+            >
+              Log in
+            </button>
+          </div>
+        </form>
+        <script>
+          document.addEventListener("contextmenu", function (e) {
+            e.preventDefault();
+          });
+        </script>
+      </div>
+    </div>
+
+    <p
+      style="position: absolute; color: white; bottom: 10px; right: 10px"
+      id="participant_id"
+    ></p>
+    <script src="./assets/cdn/jQuery/jquery.min.js"></script>
+    <script>
+      var participant = localStorage.getItem("participant");
+      if (participant) {
+        var participant = JSON.parse(localStorage.getItem("participant"));
+        if (participant.id) {
+          document.getElementById("participant_id").innerHTML = participant.id;
+        }
+      }
+    </script>
+    <script src="./assets/js/common/index.js"></script>
+    <script src="./assets/js/common/auth.js"></script>
+    <script>
+      $("#login-form").on("submit", function (e) {
+        e.preventDefault();
+        let identifier = $("#identifier").val();
+        let { user, message, success } = login(identifier);
+      });
+    </script>
+  </body>
+</html>

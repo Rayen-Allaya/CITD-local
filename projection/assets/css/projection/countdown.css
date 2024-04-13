@@ -1,0 +1,121 @@
+/*
+:root {
+    --black: #000000;
+    --pink1: #fe80b6;
+    --pink2: #D60EC6;
+    --purple: #5E0B46;
+    --blue: #2a234e;
+}
+*/
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    height: 100vh;
+    overflow-x: hidden;
+    font-family: Josefin Sans;
+}
+
+body {
+    background-image: url("../../images/countdown/countdown\ background.png");
+    background-size: cover;
+}
+
+html {
+    font-size: calc(20px + 2vw);
+    transition: font-size 0.5s ease-out;
+}
+
+.hover {
+    font-size: calc(30px + 2vw);
+    transition: font-size 0.2s ease-in-out;
+}
+
+.hover-light {
+    font-size: calc(25px + 2vw);
+    transition: font-size 0.2s ease-in-out;
+}
+
+/********* countdown section *******/
+#countdown-section {
+    height: 100vh;
+    z-index: -10;
+}
+
+#overlay {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    /* background-color: rgba(255, 0, 0, 0.1); */
+    background-color: #fe80b769;
+    transition: opacity 0.5s ease-out;
+    z-index: 10;
+}
+
+.show {
+    opacity: 0.6;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.show-light {
+    opacity: 0.3;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.hide {
+    opacity: 0;
+}
+
+#countdown-container {
+    height: auto;
+    color: white;
+    font-size: 2.5rem;
+    font-weight: 200;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    /* background-image: linear-gradient(to right, #5E0B46, #D60EC6); */
+    background-image: url("../../images/countdown/retro.gif");
+    background-size: cover;
+
+    padding: 1vh 3vw;
+    text-align: center;
+    min-width: 11rem;
+    position: relative;
+    box-shadow: -25px 15px 70px #2a234e, 25px -15px 70px #5E0B46;
+    animation: movement 4s ease infinite;
+}
+
+@keyframes movement {
+    50% {
+        box-shadow: -25px 15px 140px #2a234e, 25px -15px 140px #5E0B46;
+    }
+}
+
+#countdown-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* background-image: linear-gradient(to right top, #2a234e, #5E0B46); */
+    background-image: url("../../images/countdown/retro.gif");
+    background-size: cover;
+    z-index: -1;
+}
+
+#countdown-container::after {
+    content: '';
+    position: absolute;
+    width: 98%;
+    height: 96%;
+    margin: 0 auto;
+    right: 0;
+    left: 0;
+    top: 2%;
+    background-color: black;
+    z-index: -1;
+}
+
