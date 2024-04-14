@@ -7,15 +7,54 @@
   </head>
   <body>
     <script>
-      getIpAdress();
-      function getIpAdress() {
-        let ip = prompt(
-          "Please enter the admin IP adress (example : 192.168.1.1:8000)",
-          "192.168."
-        );
-        console.log(ip);
-        localStorage.setItem("ipAddress", ip);
-        window.location.href = "./index.html";
+      var init_string =
+        "Please enter the admin IP adress (example : 192.168.1.1:8000)";
+      var init_placeholder = "192.168.";
+
+      getIpAdress(init_string, init_placeholder);
+
+      var waitInterval;
+
+      async function getIpAdress(text, placeholder) {
+        let ip = prompt(text, placeholder);
+        var i = 0;
+        i = showTime(i);
+        waitInterval = setInterval(() => {
+          i = showTime(i);
+        }, 1000);
+        var response;
+        try {
+          console.log(
+            "The Valid endpoint should be " + "http://192.168.x.x/api/ping"
+          );
+          response = await fetch("http://" + ip + "/api/ping");
+          if (response.ok) {
+            const res = await response.json();
+            localStorage.setItem("ipAddress", ip);
+            window.location.href = "./index.html";
+          } else {
+            errorHandler(waitInterval);
+          }
+        } catch (e) {
+          errorHandler(waitInterval);
+        }
+      }
+
+      function errorHandler(waitInterval) {
+        clearInterval(waitInterval);
+        localStorage.removeItem("ipAddress");
+        document.querySelector("body").innerHTML = `<h1>Refresh the page</h1>
+        <h3>The Entered IP is probably not valid.</h3>
+        <small>Check the console fo further details</small>`;
+      }
+
+      function showTime(i) {
+        document.querySelector("body").innerHTML = `<h1>${i} second${
+          i == 1 ? "" : "s"
+        }</h1>
+        <h3>Waiting for the server to respond.</h3>`;
+        i += 1;
+        return i;
       }
     </script>
   </body>

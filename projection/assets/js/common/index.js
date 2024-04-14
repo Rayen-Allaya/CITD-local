@@ -1,6 +1,9 @@
 function baseUrl() {
   let ipAddress = localStorage.getItem("ipAddress");
-  return "http://" + ipAddress;
+  if (ipAddress) {
+    return "http://" + ipAddress;
+  }
+  window.location.href = "./init.html";
 }
 
 async function fetchCurrentRound() {

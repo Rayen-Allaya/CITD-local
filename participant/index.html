@@ -82,6 +82,9 @@
     <script src="./assets/js/common/index.js"></script>
     <script src="./assets/js/common/auth.js"></script>
     <script>
+      baseUrl();
+    </script>
+    <script>
       $("#login-form").on("submit", function (e) {
         e.preventDefault();
         let identifier = $("#identifier").val();
