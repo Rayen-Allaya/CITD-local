@@ -58,9 +58,9 @@
           </div>
         </form>
         <script>
-          document.addEventListener("contextmenu", function (e) {
-            e.preventDefault();
-          });
+          // document.addEventListener("contextmenu", function (e) {
+          //   e.preventDefault();
+          // });
         </script>
       </div>
     </div>
@@ -72,6 +72,7 @@
     <script src="./assets/cdn/jQuery/jquery.min.js"></script>
     <script>
       var participant = localStorage.getItem("participant");
+      console.log(participant);
       if (participant) {
         var participant = JSON.parse(localStorage.getItem("participant"));
         if (participant.id) {

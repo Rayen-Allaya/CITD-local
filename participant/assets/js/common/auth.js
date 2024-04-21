@@ -35,7 +35,7 @@ async function logout(delay = 0) {
     });
   }
   localStorage.removeItem("api_token");
-  localStorage.removeItem("participant");
+  // localStorage.removeItem("participant");
   setTimeout(() => {
     window.location.href = "./index.html";
   }, delay);
