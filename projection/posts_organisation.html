@@ -40,6 +40,16 @@
     </div>
 
     <script src="./assets/js/common/index.js"></script>
+    <script src="./assets/js/common/names.js"></script>
+    <script>
+      let random_first_names = firstNames
+        .sort(() => 0.5 - Math.random())
+        .slice(0, 10);
+      let random_last_names = lastNames
+        .sort(() => 0.5 - Math.random())
+        .slice(0, 10);
+      console.log(random_first_names, random_last_names);
+    </script>
     <script>
       $participantsContainer = $("#participants-container");
       async function fetchParticipants(current_round_id) {
@@ -47,6 +57,14 @@
           baseUrl() + `/api/rounds/${current_round_id}/participants`
         );
         var participants = await res.json();
+        let number_of_dummies = 10 - participants.length
+        for (let i = 0; i < number_of_dummies; i++) {
+          console.log(i)
+          console.log(random_first_names[i] + " " + random_last_names[i]);
+          participants.push({
+            name: random_first_names[i] + " " + random_last_names[i],
+          });
+        }
         return participants;
       }
 
