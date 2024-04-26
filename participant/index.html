@@ -92,5 +92,23 @@
         let { user, message, success } = login(identifier);
       });
     </script>
+    <script>
+      async function init() {
+        let isAuthenticated = await isAuth();
+        if (isAuthenticated) {
+          let saved_round_localStorage = getRoundLocalhost();
+          const activeOrPendingRound = await fetchCurrentRound();
+          if (!activeOrPendingRound && !activeOrPendingRound.end_time) {
+            return;
+          }
+          let now = new Date();
+          let end_time = new Date(activeOrPendingRound.end_time);
+          if (now - end_time < 0) {
+            window.location.href = "./editor.html";
+          }
+        }
+      }
+      init();
+    </script>
   </body>
 </html>

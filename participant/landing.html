@@ -54,15 +54,21 @@
       async function init() {
         let saved_round_localStorage = getRoundLocalhost();
         const activeOrPendingRound = await fetchCurrentRound();
+        let now = new Date();
         if (
           activeOrPendingRound &&
           activeOrPendingRound.status == "active" &&
           saved_round_localStorage &&
           activeOrPendingRound.id == saved_round_localStorage.id
         ) {
-          // trying to recover code
-          window.location.href = "./recovery.html";
-          console.log("hey");
+          let end_time = new Date(activeOrPendingRound.end_time);
+          if (now - end_time >= 5000) {
+            // trying to recover code
+            window.location.href = "./recovery.html";
+            console.log("hey");
+          } else {
+            window.location.href = "./editor.html";
+          }
         } else {
           localStorage.setItem("content", boilerplate);
           setRoundLocalhost(activeOrPendingRound);

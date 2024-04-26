@@ -25,7 +25,7 @@ async function login(identifier) {
   return { user: null, message: res.message, success: false };
 }
 
-async function logout(delay = 0) {
+async function logout(delay = 0, redirect = true) {
   const { participant, token } = getParticipantData();
 
   if (participant && participant.email) {
@@ -58,4 +58,21 @@ async function authCheck() {
   } else {
     logout();
   }
+}
+
+async function isAuth() {
+  const { participant, token } = getParticipantData();
+  console.log({ participant, token });
+
+  if (token && participant && participant.email) {
+    const response = await fetch(baseUrl() + "/api/auth-check", {
+      method: "POST",
+      body: JSON.stringify({ identifier: participant.email, api_token: token }),
+    });
+    const res = await response.json();
+    if (res && res.authorized) {
+      return true;
+    }
+  }
+  return false;
 }
